@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { profile } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Hero() {
+  const { profile } = usePortfolioData();
   const { t, pick } = useLanguage();
 
   return (

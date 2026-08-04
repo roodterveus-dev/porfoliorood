@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { projects } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import ProjectCard from "./ProjectCard";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Projects() {
+  const { projects } = usePortfolioData();
   const { t } = useLanguage();
 
   return (

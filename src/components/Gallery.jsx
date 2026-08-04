@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { gallery } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Gallery() {
+  const { gallery } = usePortfolioData();
   const [active, setActive] = useState(null);
   const { t, pick } = useLanguage();
 

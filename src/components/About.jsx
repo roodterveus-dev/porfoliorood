@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { about } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function About() {
   const { t, pick } = useLanguage();
+  const { about } = usePortfolioData();
 
   return (
     <section id="about" className="px-6 py-24 max-w-3xl mx-auto">

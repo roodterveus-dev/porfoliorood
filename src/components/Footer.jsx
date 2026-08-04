@@ -5,7 +5,7 @@ import {
   FaEnvelope,
   FaWhatsapp,
 } from "react-icons/fa";
-import { profile, socials } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
 const icons = {
@@ -17,6 +17,7 @@ const icons = {
 };
 
 export default function Footer() {
+  const { profile, socials } = usePortfolioData();
   const { t } = useLanguage();
 
   return (

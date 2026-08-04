@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { profile } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
+  const { profile } = usePortfolioData();
   const [scrolled, setScrolled] = useState(false);
   const { t } = useLanguage();
 

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaLinkedin } from "react-icons/fa";
-import { profile, socials } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
-
-const linkedin = socials.find((s) => s.icon === "linkedin");
 
 // No backend in this project yet, so submitting opens the visitor's email
 // client with the message prefilled. Swap this for a form service (Formspree,
 // EmailJS) or your own API endpoint when you're ready to wire one up.
 export default function Contact() {
+  const { profile, socials } = usePortfolioData();
+  const linkedin = socials.find((s) => s.icon === "linkedin");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
   const { t } = useLanguage();

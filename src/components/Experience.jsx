@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { experience } from "../data/portfolio";
+import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Experience() {
+  const { experience } = usePortfolioData();
   const { t, pick } = useLanguage();
 
   return (
