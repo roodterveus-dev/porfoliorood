@@ -1,0 +1,45 @@
+type Profile @table {
+  fullName: String!
+  tagline: String!
+  email: String!
+  bio: String
+  profilePictureUrl: String
+  socialLinks: String
+}
+
+type Project @table {
+  title: String!
+  description: String!
+  isVisible: Boolean!
+  projectUrl: String
+  repoUrl: String
+  imageUrl: String
+  createdAt: Timestamp
+  profile: Profile
+}
+
+type Skill @table {
+  name: String!
+  category: String!
+  proficiencyLevel: String
+  profile: Profile
+}
+
+type Experience @table {
+  companyName: String!
+  role: String!
+  startDate: Date!
+  endDate: Date
+  description: String
+  isCurrent: Boolean
+  profile: Profile
+}
+
+type Inquiry @table {
+  senderName: String!
+  senderEmail: String!
+  message: String!
+  status: String
+  createdAt: Timestamp
+  profile: Profile
+}

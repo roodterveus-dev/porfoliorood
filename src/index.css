@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  --color-bg: #0b0b0f;
+  --color-surface: #14141b;
+  --color-border: #24242e;
+  --color-text: #e5e5ec;
+  --color-muted: #8b8b9a;
+  --color-accent: #3b82f6;
+  --color-accent-2: #22d3ee;
+}
+
+:root[data-theme="light"] {
+  --color-bg: #f7f7fb;
+  --color-surface: #ffffff;
+  --color-border: #e2e2ea;
+  --color-text: #16161d;
+  --color-muted: #5b5b6b;
+  --color-accent: #2563eb;
+  --color-accent-2: #0891b2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Liquid glass: frosted, translucent panels with a soft specular highlight. */
+.glass {
+  position: relative;
+  background: color-mix(in oklab, var(--color-surface) 55%, transparent);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    transparent 45%
+  );
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .glass {
+  background: color-mix(in oklab, var(--color-surface) 65%, transparent);
+  border-color: color-mix(in oklab, black 10%, transparent);
+  box-shadow:
+    0 8px 32px rgba(20, 20, 30, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+:root[data-theme="light"] .glass::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5),
+    transparent 45%
+  );
+}
+
+.glass-hover {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.glass-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklab, var(--color-accent) 45%, transparent);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.32),
+    0 0 28px color-mix(in oklab, var(--color-accent) 22%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}

@@ -1,0 +1,119 @@
+mutation CreateProfileData($data: Profile_Data!) @auth(level: USER) {
+  profile_insert(data: $data)
+}
+
+mutation UpdateProfileData($id: UUID!, $data: Profile_Data!) @auth(level: USER) {
+  profile_update(id: $id, data: $data)
+}
+
+mutation DeleteProfileData($id: UUID!) @auth(level: USER) {
+  profile_delete(id: $id)
+}
+
+query GetProfile($id: UUID!) @auth(level: USER) {
+  profile(id: $id) {
+    fullName tagline email
+  }
+}
+
+query ListProfiles @auth(level: PUBLIC, insecureReason: "Publicly visible profiles for portfolio display.") {
+  profiles {
+    fullName tagline
+  }
+}
+
+mutation CreateProject($data: Project_Data!) @auth(level: USER) {
+  project_insert(data: $data)
+}
+
+mutation UpdateProject($id: UUID!, $data: Project_Data!) @auth(level: USER) {
+  project_update(id: $id, data: $data)
+}
+
+mutation DeleteProject($id: UUID!) @auth(level: USER) {
+  project_delete(id: $id)
+}
+
+query GetProject($id: UUID!) @auth(level: PUBLIC, insecureReason: "Projects are public portfolio items.") {
+  project(id: $id) {
+    title description projectUrl
+  }
+}
+
+query ListProjects @auth(level: PUBLIC, insecureReason: "Public project list for portfolio.") {
+  projects(where: {isVisible: {eq: true}}) {
+    title description
+  }
+}
+
+mutation CreateSkill($data: Skill_Data!) @auth(level: USER) {
+  skill_insert(data: $data)
+}
+
+mutation UpdateSkill($id: UUID!, $data: Skill_Data!) @auth(level: USER) {
+  skill_update(id: $id, data: $data)
+}
+
+mutation DeleteSkill($id: UUID!) @auth(level: USER) {
+  skill_delete(id: $id)
+}
+
+query GetSkill($id: UUID!) @auth(level: PUBLIC, insecureReason: "Skills are public portfolio items.") {
+  skill(id: $id) {
+    name category proficiencyLevel
+  }
+}
+
+query ListSkills @auth(level: PUBLIC, insecureReason: "Public skill list for portfolio.") {
+  skills {
+    name category
+  }
+}
+
+mutation CreateExperience($data: Experience_Data!) @auth(level: USER) {
+  experience_insert(data: $data)
+}
+
+mutation UpdateExperience($id: UUID!, $data: Experience_Data!) @auth(level: USER) {
+  experience_update(id: $id, data: $data)
+}
+
+mutation DeleteExperience($id: UUID!) @auth(level: USER) {
+  experience_delete(id: $id)
+}
+
+query GetExperience($id: UUID!) @auth(level: PUBLIC, insecureReason: "Experience is public information.") {
+  experience(id: $id) {
+    companyName role startDate
+  }
+}
+
+query ListExperience @auth(level: PUBLIC, insecureReason: "Public experience list for portfolio.") {
+  experiences {
+    companyName role startDate endDate
+  }
+}
+
+mutation CreateInquiry($data: Inquiry_Data!) @auth(level: PUBLIC, insecureReason: "Users need to be able to send inquiries.") {
+  inquiry_insert(data: $data)
+}
+
+mutation UpdateInquiryStatus($id: UUID!, $data: Inquiry_Data!) @auth(level: USER) {
+  inquiry_update(id: $id, data: $data)
+}
+
+mutation DeleteInquiry($id: UUID!) @auth(level: USER) {
+  inquiry_delete(id: $id)
+}
+
+query GetInquiry($id: UUID!) @auth(level: USER) {
+  inquiry(id: $id) {
+    senderName senderEmail message
+  }
+}
+
+query ListInquiries @auth(level: USER) {
+  inquiries {
+    senderName senderEmail status
+  }
+}
