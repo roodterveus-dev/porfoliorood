@@ -8,15 +8,16 @@ export default function About() {
 
   return (
     <section id="about" className="px-6 py-24 max-w-3xl mx-auto">
-      <motion.h2
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.5 }}
-        className="text-2xl font-semibold text-text mb-6"
+        className="flex items-center gap-3 mb-6"
       >
-        {t.headings.about}
-      </motion.h2>
+        <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
+        <h2 className="text-2xl font-semibold text-text">{t.headings.about}</h2>
+      </motion.div>
 
       <div className="space-y-4">
         {about.bio.map((paragraph, i) => (

@@ -10,15 +10,16 @@ export default function Gallery() {
 
   return (
     <section id="gallery" className="px-6 py-24 max-w-5xl mx-auto">
-      <motion.h2
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.5 }}
-        className="text-2xl font-semibold text-text mb-10 text-left"
+        className="flex items-center gap-3 mb-10"
       >
-        {t.headings.gallery}
-      </motion.h2>
+        <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
+        <h2 className="text-2xl font-semibold text-text">{t.headings.gallery}</h2>
+      </motion.div>
 
       <div className="columns-2 sm:columns-3 gap-4 space-y-4">
         {gallery.map((item, i) => (

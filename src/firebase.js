@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 // Public web config — safe to expose client-side. Access is enforced by
@@ -14,8 +13,10 @@ const firebaseConfig = {
   measurementId: "G-KJT2MX4YR9",
 };
 
+// Keep this module free of `firebase/auth` — it's imported by the public
+// site (via PortfolioDataContext) and auth is only needed by /admin.
+// See firebase-auth.js for that.
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // Admin login is restricted to this address by firestore.rules — keep in sync.

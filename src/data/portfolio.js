@@ -73,6 +73,20 @@ export const about = {
 // once you send them — they'll show up on the card automatically.
 export const projects = [
   {
+    id: "inae-site",
+    title: "INAE — English Speaking Practice",
+    description: {
+      en: "A trilingual (Creole/French/English) landing and registration site for INAE's English program — session schedules, pricing, and a signup form with NatCash/MonCash payment options.",
+      fr: "Un site trilingue (créole/français/anglais) de présentation et d'inscription pour le programme d'anglais de l'INAE — horaires des sessions, tarifs et un formulaire d'inscription avec paiement via NatCash/MonCash.",
+      ht: "Yon sit trileng (kreyòl/franse/angle) prezantasyon ak enskripsyon pou pwogram anglè INAE — orè sesyon, pri, ak yon fòm enskripsyon ak opsyon peman NatCash/MonCash.",
+    },
+    image: null, // TODO: drop a screenshot into public/images/ once you have one
+    date: null,
+    tags: ["React"],
+    liveUrl: "https://siteinae123.netlify.app/",
+    repoUrl: "",
+  },
+  {
     id: "ftbe",
     title: "Faculté Théologie Biblique Esdras (FTBE)",
     description: {
