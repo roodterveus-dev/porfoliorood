@@ -349,6 +349,7 @@ export const socials = [
     url: "https://www.linkedin.com/in/roodkenley-terveus-43681b2ba",
     icon: "linkedin",
   },
+  { name: "X", url: "https://x.com/mr_too_much20", icon: "x" },
   { name: "Email", url: "mailto:roodterveus@gmail.com", icon: "email" },
   { name: "WhatsApp", url: "https://wa.me/50941671824", icon: "whatsapp" },
 ];

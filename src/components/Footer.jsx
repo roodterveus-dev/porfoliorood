@@ -5,6 +5,7 @@ import {
   FaEnvelope,
   FaWhatsapp,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { usePortfolioData } from "../context/PortfolioDataContext";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -12,6 +13,7 @@ const icons = {
   github: FaGithub,
   linkedin: FaLinkedin,
   twitter: FaTwitter,
+  x: FaXTwitter,
   email: FaEnvelope,
   whatsapp: FaWhatsapp,
 };

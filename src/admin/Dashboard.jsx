@@ -384,7 +384,7 @@ function SocialFields({ value, onChange }) {
     <>
       <TextField label="Name" value={value.name} onChange={set("name")} />
       <TextField label="URL" value={value.url} onChange={set("url")} />
-      <TextField label="Icon (github, linkedin, email, whatsapp)" value={value.icon} onChange={set("icon")} />
+      <TextField label="Icon (github, linkedin, x, email, whatsapp)" value={value.icon} onChange={set("icon")} />
     </>
   );
 }
