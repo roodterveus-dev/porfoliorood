@@ -1,10 +1,9 @@
-﻿[build]
+[build]
   command = "npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
-
 
 # Client-side route for the admin dashboard. Deliberately not a catch-all, so
 # missing files (images, PDFs) return a real 404 instead of the HTML shell.
