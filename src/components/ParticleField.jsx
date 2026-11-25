@@ -14,17 +14,26 @@ export default function ParticleField() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const accent = getComputedStyle(document.documentElement)
-      .getPropertyValue("--color-accent")
-      .trim();
+    const readAccent = () =>
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-accent")
+        .trim();
+    let accent = readAccent();
 
     function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      // Keep particles on-screen when the viewport shrinks.
+      particles?.forEach((p) => {
+        p.x = Math.min(p.x, width);
+        p.y = Math.min(p.y, height);
+      });
+      if (prefersReducedMotion && particles) draw(false);
     }
 
     function makeParticles() {
-      particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+      const count = Math.min(PARTICLE_COUNT, Math.round(width / 12));
+      particles = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.3,
@@ -33,14 +42,22 @@ export default function ParticleField() {
       }));
     }
 
-    function step() {
+    function draw(move) {
       ctx.clearRect(0, 0, width, height);
 
       for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+        if (move) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x <= 0 || p.x >= width) {
+            p.vx *= -1;
+            p.x = Math.max(0, Math.min(p.x, width));
+          }
+          if (p.y <= 0 || p.y >= height) {
+            p.vy *= -1;
+            p.y = Math.max(0, Math.min(p.y, height));
+          }
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -68,7 +85,10 @@ export default function ParticleField() {
         }
       }
       ctx.globalAlpha = 1;
+    }
 
+    function step() {
+      draw(true);
       rafId = requestAnimationFrame(step);
     }
 
@@ -76,13 +96,24 @@ export default function ParticleField() {
     makeParticles();
     window.addEventListener("resize", resize);
 
+    // Follow theme changes, including while animation is paused.
+    const themeObserver = new MutationObserver(() => {
+      accent = readAccent();
+      if (prefersReducedMotion) draw(false);
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     if (!prefersReducedMotion) {
       rafId = requestAnimationFrame(step);
     } else {
-      step();
+      draw(false);
     }
 
     return () => {
+      themeObserver.disconnect();
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafId);
     };

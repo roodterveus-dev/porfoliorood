@@ -23,9 +23,22 @@ export default function Navbar() {
     { label: t.nav.contact, href: "#contact", id: "contact" },
   ];
 
+  // Closing the menu cancels the browser's own anchor scroll on phones (the
+  // hash changes but the page stays put), so scroll explicitly.
+  const goTo = (e, id) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+      history.replaceState(null, "", `#${id}`);
+    });
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -58,11 +71,11 @@ export default function Navbar() {
       }`}
     >
       <nav className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
-        <a href="#top" className="font-semibold tracking-tight text-text">
+        <a href="#top" className="font-display text-lg font-bold tracking-tight text-text">
           {profile.name}
         </a>
         <div className="flex items-center gap-6">
-          <ul className="hidden sm:flex items-center gap-8 text-sm text-muted">
+          <ul className="hidden lg:flex items-center gap-8 text-sm text-muted">
             {links.map((link) => (
               <li key={link.href} className="relative">
                 <a
@@ -82,7 +95,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <LanguageSwitcher />
             <ThemeToggle />
           </div>
@@ -91,9 +104,9 @@ export default function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            className="sm:hidden glass glass-hover flex items-center justify-center w-9 h-9 rounded-full text-text"
+            className="lg:hidden btn btn-ghost btn-circle text-text"
           >
-            {menuOpen ? <FiX size={16} /> : <FiMenu size={16} />}
+            {menuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
           </button>
         </div>
       </nav>
@@ -101,19 +114,24 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0, overflow: "hidden" }}
+            animate={{
+              opacity: 1,
+              height: "auto",
+              // Let the language dropdown extend past the menu once open.
+              transitionEnd: { overflow: "visible" },
+            }}
+            exit={{ opacity: 0, height: 0, overflow: "hidden" }}
             transition={{ duration: 0.2 }}
-            className="sm:hidden overflow-hidden border-t border-border"
+            className="lg:hidden border-t border-border"
           >
-            <ul className="px-6 py-4 flex flex-col gap-4 text-sm">
+            <ul className="px-6 py-2 flex flex-col divide-y divide-border">
               {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={active === link.id ? "text-accent" : "text-muted"}
+                    onClick={(e) => goTo(e, link.id)}
+                    className={`block py-3 text-base ${active === link.id ? "text-accent font-medium" : "text-text"}`}
                   >
                     {link.label}
                   </a>

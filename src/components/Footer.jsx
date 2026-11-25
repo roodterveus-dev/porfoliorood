@@ -27,17 +27,17 @@ export default function Footer() {
           © {new Date().getFullYear()} {profile.name}. {t.footer.rights}
         </p>
 
-        <div className="flex items-center gap-5">
-          {socials.map((social) => {
+        <div className="flex items-center gap-1">
+          {socials.filter((s) => s.url).map((social, i) => {
             const Icon = icons[social.icon];
             return (
               <a
-                key={social.name}
+                key={`${social.url}-${i}`}
                 href={social.url}
                 target={social.icon === "email" ? undefined : "_blank"}
                 rel="noreferrer"
                 aria-label={social.name}
-                className="text-muted hover:text-accent transition-colors"
+                className="btn btn-ghost btn-circle text-muted hover:text-accent"
               >
                 {Icon ? <Icon size={18} /> : social.name}
               </a>

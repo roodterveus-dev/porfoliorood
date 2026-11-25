@@ -16,7 +16,7 @@ export default function Experience() {
         className="flex items-center gap-3 mb-10"
       >
         <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
-        <h2 className="text-2xl font-semibold text-text">{t.headings.experience}</h2>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-text">{t.headings.experience}</h2>
       </motion.div>
 
       <div className="space-y-10">
@@ -34,6 +34,8 @@ export default function Experience() {
                 <img
                   src={item.image}
                   alt={pick(item.role)}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -45,7 +47,7 @@ export default function Experience() {
 
             <div className="flex-1">
               <div className="flex items-center justify-between gap-2 flex-wrap">
-                <h3 className="font-semibold text-text">{pick(item.role)}</h3>
+                <h3 className="font-display font-semibold text-text">{pick(item.role)}</h3>
                 <span className="text-xs text-muted whitespace-nowrap">
                   {item.dateLabel}
                 </span>
@@ -60,7 +62,7 @@ export default function Experience() {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-2 py-1 rounded-full bg-bg border border-border text-muted"
+                      className="badge badge-sm badge-outline border-border text-muted"
                     >
                       {tag}
                     </span>

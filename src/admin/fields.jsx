@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export function TextField({ label, value, onChange, type = "text" }) {
   return (
     <label className="block space-y-1">
@@ -47,19 +49,30 @@ export function TranslatableField({ label, value, onChange, multiline }) {
   );
 }
 
+const parseTags = (text) => [
+  ...new Set(
+    text
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  ),
+];
+
 export function TagsField({ label, value, onChange }) {
+  const tags = value ?? [];
+  // Keep the raw text so spaces and commas can be typed. If the tags changed
+  // elsewhere (e.g. the item was reordered), show the saved value instead.
+  const [draft, setDraft] = useState(tags.join(", "));
+  const inSync = parseTags(draft).join("\n") === tags.join("\n");
+
   return (
     <TextField
       label={`${label} (comma-separated)`}
-      value={(value ?? []).join(", ")}
-      onChange={(next) =>
-        onChange(
-          next
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        )
-      }
+      value={inSync ? draft : tags.join(", ")}
+      onChange={(next) => {
+        setDraft(next);
+        onChange(parseTags(next));
+      }}
     />
   );
 }

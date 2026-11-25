@@ -1,17 +1,21 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
-function formatDate(date) {
+function formatDate(date, language) {
   if (!date) return null;
-  const [year, month] = date.split("-");
-  const d = new Date(Number(year), Number(month) - 1);
-  return d.toLocaleDateString(undefined, { month: "short", year: "numeric" });
+  const [year, month] = date.split("-").map(Number);
+  if (!year) return date;
+  if (!month) return String(year);
+  return new Date(year, month - 1).toLocaleDateString(language, {
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default function ProjectCard({ project, index }) {
   const { title, description, image, date, dateLabel, tags, liveUrl, repoUrl } =
     project;
-  const { t, pick } = useLanguage();
+  const { t, pick, language } = useLanguage();
 
   return (
     <motion.article
@@ -26,6 +30,8 @@ export default function ProjectCard({ project, index }) {
           <img
             src={image}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
@@ -36,11 +42,11 @@ export default function ProjectCard({ project, index }) {
       </div>
 
       <div className="p-5 text-left">
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="font-semibold text-text">{title}</h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-display text-lg font-semibold leading-snug text-text">{title}</h3>
           {(dateLabel || date) && (
             <span className="text-xs text-muted whitespace-nowrap">
-              {dateLabel || formatDate(date)}
+              {dateLabel || formatDate(date, language)}
             </span>
           )}
         </div>
@@ -54,7 +60,7 @@ export default function ProjectCard({ project, index }) {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-1 rounded-full bg-bg border border-border text-muted"
+                className="badge badge-sm badge-outline border-border text-muted"
               >
                 {tag}
               </span>
@@ -63,13 +69,13 @@ export default function ProjectCard({ project, index }) {
         )}
 
         {(liveUrl || repoUrl) && (
-          <div className="mt-4 flex gap-4 text-sm">
+          <div className="mt-3 -ml-3 flex flex-wrap gap-1">
             {liveUrl && (
               <a
                 href={liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-accent hover:underline"
+                className="btn btn-ghost text-accent"
               >
                 {t.project.live}
               </a>
@@ -79,7 +85,7 @@ export default function ProjectCard({ project, index }) {
                 href={repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-accent hover:underline"
+                className="btn btn-ghost text-accent"
               >
                 {t.project.code}
               </a>

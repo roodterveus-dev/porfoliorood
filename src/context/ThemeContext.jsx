@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { readStorage, writeStorage } from "../utils/storage";
 
 const ThemeContext = createContext(null);
 const STORAGE_KEY = "portfolio-theme";
 
 function getInitialTheme() {
   if (typeof window === "undefined") return "dark";
-  const stored = window.localStorage.getItem(STORAGE_KEY);
+  const stored = readStorage(STORAGE_KEY);
   if (stored === "light" || stored === "dark") return stored;
   return window.matchMedia("(prefers-color-scheme: light)").matches
     ? "light"
@@ -17,7 +18,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
+    writeStorage(STORAGE_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () =>

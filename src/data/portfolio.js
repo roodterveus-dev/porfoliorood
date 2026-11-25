@@ -31,9 +31,9 @@ export const about = {
       ht: "Mwen se yon Enjenyè Lojisyèl, pwofesè anglè, epi entèprèt pwofesyonèl kreyòl ayisyen–anglè, ki baze Okap, Ayiti.",
     },
     {
-      en: "I'm passionate about building modern web applications and creating digital solutions that solve real-world problems. My interests include full-stack web development, software engineering, UI/UX design, and fintech innovation. I enjoy turning ideas into functional, user-friendly applications using technologies like React, FastAPI, MongoDB, JavaScript, Python, and PHP.",
-      fr: "Je suis passionné par la création d'applications web modernes et de solutions numériques qui résolvent des problèmes concrets. Je m'intéresse au développement web full-stack, au génie logiciel, au design UI/UX et à l'innovation fintech. J'aime transformer des idées en applications fonctionnelles et conviviales en utilisant des technologies comme React, FastAPI, MongoDB, JavaScript, Python et PHP.",
-      ht: "Mwen renmen konstwi aplikasyon web modèn ak kreye solisyon dijital ki rezoud pwoblèm reyèl. Enterè m gen ladan devlopman web full-stack, jeni lojisyèl, konsepsyon UI/UX ak inovasyon fintech. Mwen renmen transfòme lide an aplikasyon fonksyonèl ak fasil pou itilize avèk teknoloji tankou React, FastAPI, MongoDB, JavaScript, Python ak PHP.",
+      en: "I'm passionate about building modern web applications and creating digital solutions that solve real-world problems. My interests include full-stack web development, software engineering, UI/UX design, and fintech innovation. I enjoy turning ideas into functional, user-friendly applications using technologies like React, Next.js, FastAPI, JavaScript, Python, and PHP.",
+      fr: "Je suis passionné par la création d'applications web modernes et de solutions numériques qui résolvent des problèmes concrets. Je m'intéresse au développement web full-stack, au génie logiciel, au design UI/UX et à l'innovation fintech. J'aime transformer des idées en applications fonctionnelles et conviviales en utilisant des technologies comme React, Next.js, FastAPI, JavaScript, Python et PHP.",
+      ht: "Mwen renmen konstwi aplikasyon web modèn ak kreye solisyon dijital ki rezoud pwoblèm reyèl. Enterè m gen ladan devlopman web full-stack, jeni lojisyèl, konsepsyon UI/UX ak inovasyon fintech. Mwen renmen transfòme lide an aplikasyon fonksyonèl ak fasil pou itilize avèk teknoloji tankou React, Next.js, FastAPI, JavaScript, Python ak PHP.",
     },
     {
       en: "Beyond software development, I have experience in language instruction, interpretation, and graphic design. These roles have strengthened my communication, problem-solving, creativity, and client relationship skills, allowing me to work effectively with people from diverse cultural and professional backgrounds.",
@@ -61,8 +61,10 @@ export const about = {
     "Python",
     "PHP",
     "React",
+    "Next.js",
+    "Tailwind CSS",
     "FastAPI",
-    "MongoDB",
+    "SQL",
     "HTML",
     "CSS",
     "Graphic Design",
@@ -72,6 +74,20 @@ export const about = {
 // Each project: add an `image` (path under src/assets/images) and a `date`
 // once you send them — they'll show up on the card automatically.
 export const projects = [
+  {
+    id: "dinnas-sweets",
+    title: "Dinna's Sweets",
+    description: {
+      en: "Website and admin dashboard for a custom cake and dessert business in Broward County, FL — online menu, event gallery, and an order form with photo uploads. The owner manages requests, quotes, menu, and photos from a private dashboard with weekly stats.",
+      fr: "Site web et tableau de bord pour une entreprise de gâteaux et desserts sur mesure dans le comté de Broward, en Floride — menu en ligne, galerie d'événements et formulaire de commande avec envoi de photos. La propriétaire gère les demandes, les devis, le menu et les photos depuis un tableau de bord privé avec des statistiques hebdomadaires.",
+      ht: "Sitwèb ak tablo administrasyon pou yon biznis gato ak desè sou mezi nan Broward County, Florid — meni an liy, galri evènman, ak yon fòm kòmand ki pèmèt voye foto. Pwopriyetè a jere demann, pri, meni ak foto nan yon tablo prive ki gen estatistik chak semèn.",
+    },
+    image: "/images/dinnas-sweets.jpg",
+    date: "2026-11",
+    tags: ["Next.js", "Tailwind CSS", "Drizzle ORM", "SQLite", "Vercel"],
+    liveUrl: "https://dinnas-sweets.vercel.app",
+    repoUrl: "",
+  },
   {
     id: "inae-site",
     title: "INAE — English Speaking Practice",
@@ -190,9 +206,78 @@ export const experience = [
   },
 ];
 
+// `category` drives the gallery filters: "usfah" (USFAH media team photos),
+// "field" (on-site work), or "other".
 export const gallery = [
   {
+    id: "usfah-assembly",
+    category: "usfah",
+    image: "/images/gallery/usfah-assembly.jpg",
+    caption: { en: "Student assembly at USFAH", fr: "Assemblée des étudiants à l'USFAH", ht: "Asanble etidyan nan USFAH" },
+  },
+  {
+    id: "usfah-officials",
+    category: "usfah",
+    image: "/images/gallery/usfah-officials.jpg",
+    caption: { en: "Guests at a USFAH ceremony", fr: "Invités lors d'une cérémonie à l'USFAH", ht: "Envite nan yon seremoni USFAH" },
+  },
+  {
+    id: "usfah-anatomy-laptop",
+    category: "usfah",
+    image: "/images/gallery/usfah-anatomy-laptop.jpg",
+    caption: { en: "Anatomy study session at USFAH", fr: "Séance d'étude d'anatomie à l'USFAH", ht: "Sesyon etid anatomi nan USFAH" },
+  },
+  {
+    id: "usfah-assembly-front",
+    category: "usfah",
+    image: "/images/gallery/usfah-assembly-front.jpg",
+    caption: { en: "Opening of a USFAH event", fr: "Ouverture d'un événement à l'USFAH", ht: "Ouvèti yon evènman USFAH" },
+  },
+  {
+    id: "usfah-cake-ceremony",
+    category: "usfah",
+    image: "/images/gallery/usfah-cake-ceremony.jpg",
+    caption: { en: "Cake cutting at a USFAH celebration", fr: "Coupe du gâteau lors d'une célébration à l'USFAH", ht: "Koupe gato nan yon fèt USFAH" },
+  },
+  {
+    id: "usfah-workshop-drawing",
+    category: "usfah",
+    image: "/images/gallery/usfah-workshop-drawing.jpg",
+    caption: { en: "Student workshop at USFAH", fr: "Atelier étudiant à l'USFAH", ht: "Atelye etidyan nan USFAH" },
+  },
+  {
+    id: "usfah-poster-session",
+    category: "usfah",
+    image: "/images/gallery/usfah-poster-session.jpg",
+    caption: { en: "Students working on a group project", fr: "Étudiants travaillant sur un projet de groupe", ht: "Etidyan k ap travay sou yon pwojè an gwoup" },
+  },
+  {
+    id: "usfah-courtyard",
+    category: "usfah",
+    image: "/images/gallery/usfah-courtyard.jpg",
+    caption: { en: "Activities in the USFAH courtyard", fr: "Activités dans la cour de l'USFAH", ht: "Aktivite nan lakou USFAH" },
+  },
+  {
+    id: "field-team-selfie",
+    category: "field",
+    image: "/images/gallery/field-team-selfie.jpg",
+    caption: { en: "With the team on site", fr: "Avec l'équipe sur le terrain", ht: "Ak ekip la sou teren" },
+  },
+  {
+    id: "field-site-tech",
+    category: "field",
+    image: "/images/gallery/field-site-tech.jpg",
+    caption: { en: "Technical work on site", fr: "Travail technique sur le terrain", ht: "Travay teknik sou teren" },
+  },
+  {
+    id: "field-portrait",
+    category: "field",
+    image: "/images/gallery/field-portrait.jpg",
+    caption: { en: "On site", fr: "Sur le terrain", ht: "Sou teren" },
+  },
+  {
     id: "hardware-repair",
+    category: "other",
     image: "/images/gallery/hardware-repair.jpg",
     caption: {
       en: "Hardware repair work",
@@ -220,6 +305,7 @@ export const gallery = [
   },
   {
     id: "usfah-obs",
+    category: "usfah",
     image: "/images/gallery/usfah-obs.jpg",
     caption: {
       en: "Livestreaming with OBS Studio at USFAH",

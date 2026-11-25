@@ -2,6 +2,12 @@
 // (that lives in data/portfolio.js as { en, fr, ht } objects instead).
 export const translations = {
   en: {
+    galleryFilters: {
+      all: "All",
+      usfah: "USFAH Media",
+      field: "On site",
+      other: "Other",
+    },
     nav: {
       about: "About",
       projects: "Projects",
@@ -43,6 +49,12 @@ export const translations = {
   },
 
   fr: {
+    galleryFilters: {
+      all: "Tout",
+      usfah: "Média USFAH",
+      field: "Sur le terrain",
+      other: "Autres",
+    },
     nav: {
       about: "À propos",
       projects: "Projets",
@@ -84,6 +96,12 @@ export const translations = {
   },
 
   ht: {
+    galleryFilters: {
+      all: "Tout",
+      usfah: "Medya USFAH",
+      field: "Sou teren",
+      other: "Lòt",
+    },
     nav: {
       about: "Konsènan mwen",
       projects: "Pwojè",

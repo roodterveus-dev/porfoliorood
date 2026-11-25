@@ -16,7 +16,7 @@ export default function About() {
         className="flex items-center gap-3 mb-6"
       >
         <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
-        <h2 className="text-2xl font-semibold text-text">{t.headings.about}</h2>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-text">{t.headings.about}</h2>
       </motion.div>
 
       <div className="space-y-4">
@@ -56,7 +56,7 @@ export default function About() {
         {about.skills.map((skill) => (
           <span
             key={skill}
-            className="glass px-3 py-1 rounded-full text-sm text-muted"
+            className="badge badge-lg badge-outline border-border text-text"
           >
             {skill}
           </span>

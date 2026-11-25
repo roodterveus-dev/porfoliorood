@@ -18,8 +18,13 @@ export default function LanguageSwitcher() {
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", onClickOutside);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onClickOutside);
+      document.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   return (
@@ -29,7 +34,7 @@ export default function LanguageSwitcher() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="glass glass-hover flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full text-sm font-medium text-text"
+        className="btn btn-ghost rounded-full gap-2 px-3 font-medium text-text"
       >
         <FlagIcon code={language} />
         <span>{languageLabels[language]}</span>
@@ -49,7 +54,7 @@ export default function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="glass absolute right-0 mt-2 w-40 rounded-xl p-1.5 z-20 origin-top-right"
+            className="glass absolute left-0 lg:left-auto lg:right-0 mt-2 w-40 rounded-xl p-1.5 z-20 origin-top-left lg:origin-top-right"
           >
             {order.map((code) => (
               <li key={code}>
@@ -61,9 +66,9 @@ export default function LanguageSwitcher() {
                     setLanguage(code);
                     setOpen(false);
                   }}
-                  className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                     language === code
-                      ? "bg-accent text-white"
+                      ? "bg-accent text-on-accent"
                       : "text-text hover:bg-bg/60"
                   }`}
                 >

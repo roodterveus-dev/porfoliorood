@@ -40,7 +40,7 @@ export default function Contact() {
   };
 
   const fieldClasses =
-    "w-full rounded-lg bg-bg/40 border border-border px-4 py-2.5 text-text placeholder:text-muted focus:outline-none focus:border-accent transition-colors";
+    "w-full bg-bg border-border text-base text-text placeholder:text-muted focus:outline-none focus:border-accent";
 
   return (
     <section id="contact" className="px-6 py-24 max-w-xl mx-auto">
@@ -52,7 +52,7 @@ export default function Contact() {
         className="flex items-center gap-3 mb-3"
       >
         <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
-        <h2 className="text-2xl font-semibold text-text">{t.headings.contact}</h2>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-text">{t.headings.contact}</h2>
       </motion.div>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -84,7 +84,7 @@ export default function Contact() {
             placeholder={t.contact.namePlaceholder}
             value={form.name}
             onChange={handleChange}
-            className={fieldClasses}
+            className={`input ${fieldClasses}`}
           />
           {errors.name && (
             <p className="mt-1 text-sm text-red-400">{errors.name}</p>
@@ -102,7 +102,7 @@ export default function Contact() {
             placeholder={t.contact.emailPlaceholder}
             value={form.email}
             onChange={handleChange}
-            className={fieldClasses}
+            className={`input ${fieldClasses}`}
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-400">{errors.email}</p>
@@ -120,7 +120,7 @@ export default function Contact() {
             placeholder={t.contact.messagePlaceholder}
             value={form.message}
             onChange={handleChange}
-            className={`${fieldClasses} resize-none`}
+            className={`textarea ${fieldClasses} resize-none`}
           />
           {errors.message && (
             <p className="mt-1 text-sm text-red-400">{errors.message}</p>
@@ -129,7 +129,7 @@ export default function Contact() {
 
         <button
           type="submit"
-          className="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:opacity-90 transition-opacity"
+          className="btn btn-primary rounded-full px-6 w-full sm:w-auto"
         >
           {t.contact.send}
         </button>
@@ -148,7 +148,7 @@ export default function Contact() {
             href={linkedin.url}
             target="_blank"
             rel="noreferrer"
-            className="glass inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-text hover:text-accent transition-colors"
+            className="btn btn-outline rounded-full gap-2 border-border text-text hover:border-accent hover:bg-transparent hover:text-accent"
           >
             <FaLinkedin size={18} />
             {t.contact.connectLinkedin}

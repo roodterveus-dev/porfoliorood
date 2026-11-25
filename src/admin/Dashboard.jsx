@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
@@ -13,28 +13,79 @@ export default function Dashboard() {
   const [data, setData] = useState(null);
   const [tab, setTab] = useState("Profile");
   const [status, setStatus] = useState("");
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const statusTimer = useRef();
+  // Bumped on every edit so a slow save can't mark newer edits as saved.
+  const revision = useRef(0);
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      const ref = doc(db, ...CONTENT_DOC_PATH);
-      const snap = await getDoc(ref);
-      setData(snap.exists() ? { ...defaultContent, ...snap.data() } : defaultContent);
+      try {
+        const snap = await getDoc(doc(db, ...CONTENT_DOC_PATH));
+        if (cancelled) return;
+        setData(snap.exists() ? { ...defaultContent, ...snap.data() } : defaultContent);
+      } catch {
+        // Never fall back to defaults here: saving them would overwrite real content.
+        if (!cancelled) setLoadFailed(true);
+      }
     })();
+    return () => {
+      cancelled = true;
+      clearTimeout(statusTimer.current);
+    };
   }, []);
 
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
   function updateSection(key, value) {
+    revision.current += 1;
+    setDirty(true);
     setData((prev) => ({ ...prev, [key]: value }));
   }
 
   async function handleSave() {
+    const savedRevision = revision.current;
+    clearTimeout(statusTimer.current);
+    setSaving(true);
     setStatus("Saving…");
     try {
       await setDoc(doc(db, ...CONTENT_DOC_PATH), data);
+      if (revision.current === savedRevision) setDirty(false);
       setStatus("Saved.");
+      statusTimer.current = setTimeout(() => setStatus(""), 3000);
     } catch {
-      setStatus("Save failed — check your connection and try again.");
+      // Stays visible until the next save attempt.
+      setStatus("Save failed — your edits are still here. Check your connection and try again.");
+    } finally {
+      setSaving(false);
     }
-    setTimeout(() => setStatus(""), 3000);
+  }
+
+  function handleLogout() {
+    if (dirty && !window.confirm("You have unsaved changes. Log out anyway?")) return;
+    logout();
+  }
+
+  if (loadFailed) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-bg text-text px-6 text-center">
+        <p>Couldn't load the site content. Nothing has been changed.</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="rounded-lg border border-border text-sm px-4 py-2"
+        >
+          Try again
+        </button>
+      </div>
+    );
   }
 
   if (!data) {
@@ -47,20 +98,21 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-bg text-text">
-      <header className="sticky top-0 z-10 glass px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-10 glass px-6 py-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-lg font-semibold">Portfolio Admin</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <a href="/" className="text-sm text-muted hover:text-accent">
             View site
           </a>
           <button
             onClick={handleSave}
-            className="rounded-lg bg-accent text-white text-sm font-medium px-4 py-2"
+            disabled={saving || !dirty}
+            className="rounded-lg bg-accent text-on-accent text-sm font-medium px-4 py-2 disabled:opacity-50"
           >
-            Save changes
+            {saving ? "Saving…" : dirty ? "Save changes" : "Saved"}
           </button>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="rounded-lg border border-border text-sm px-4 py-2"
           >
             Log out
@@ -69,7 +121,7 @@ export default function Dashboard() {
       </header>
 
       {status && (
-        <div className="px-6 py-2 text-sm text-accent-2">{status}</div>
+        <div role="status" className="px-6 py-2 text-sm text-accent-2">{status}</div>
       )}
 
       <div className="px-6 py-4 flex gap-2 flex-wrap border-b border-border">
@@ -79,7 +131,7 @@ export default function Dashboard() {
             onClick={() => setTab(name)}
             className={`rounded-full px-4 py-1.5 text-sm border ${
               tab === name
-                ? "bg-accent text-white border-accent"
+                ? "bg-accent text-on-accent border-accent"
                 : "border-border text-muted hover:text-text"
             }`}
           >
@@ -309,6 +361,18 @@ function GalleryFields({ value, onChange }) {
     <>
       <TextField label="ID (unique slug)" value={value.id} onChange={set("id")} />
       <TextField label="Image path/URL" value={value.image} onChange={set("image")} />
+      <label className="block space-y-1">
+        <span className="text-sm text-muted">Category</span>
+        <select
+          value={value.category ?? "other"}
+          onChange={(e) => set("category")(e.target.value)}
+          className="w-full rounded-lg bg-surface border border-border px-3 py-2 outline-none focus:border-accent text-sm"
+        >
+          <option value="usfah">USFAH Media</option>
+          <option value="field">On site</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
       <TranslatableField label="Caption" value={value.caption} onChange={set("caption")} />
     </>
   );
@@ -326,7 +390,7 @@ function SocialFields({ value, onChange }) {
 }
 
 const emptyProject = () => ({
-  id: "",
+  id: crypto.randomUUID(),
   title: "",
   description: { en: "", fr: "", ht: "" },
   image: "",
@@ -337,7 +401,7 @@ const emptyProject = () => ({
 });
 
 const emptyExperience = () => ({
-  id: "",
+  id: crypto.randomUUID(),
   role: { en: "", fr: "", ht: "" },
   org: "",
   dateLabel: "",
@@ -347,8 +411,9 @@ const emptyExperience = () => ({
 });
 
 const emptyGalleryItem = () => ({
-  id: "",
+  id: crypto.randomUUID(),
   image: "",
+  category: "other",
   caption: { en: "", fr: "", ht: "" },
 });
 

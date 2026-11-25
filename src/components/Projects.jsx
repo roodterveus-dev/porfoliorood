@@ -17,7 +17,7 @@ export default function Projects() {
         className="flex items-center gap-3 mb-10"
       >
         <span className="w-8 h-0.5 rounded-full bg-accent" aria-hidden />
-        <h2 className="text-2xl font-semibold text-text">{t.headings.projects}</h2>
+        <h2 className="font-display text-3xl font-bold tracking-tight text-text">{t.headings.projects}</h2>
       </motion.div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

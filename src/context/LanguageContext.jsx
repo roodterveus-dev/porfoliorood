@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { translations } from "../i18n/translations";
+import { readStorage, writeStorage } from "../utils/storage";
 
 const LanguageContext = createContext(null);
 
@@ -8,7 +9,7 @@ const SUPPORTED = ["en", "fr", "ht"];
 
 function getInitialLanguage() {
   if (typeof window === "undefined") return "en";
-  const stored = window.localStorage.getItem(STORAGE_KEY);
+  const stored = readStorage(STORAGE_KEY);
   return SUPPORTED.includes(stored) ? stored : "en";
 }
 
@@ -16,7 +17,8 @@ export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(getInitialLanguage);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, language);
+    writeStorage(STORAGE_KEY, language);
+    document.documentElement.lang = language;
   }, [language]);
 
   const t = translations[language];
@@ -26,7 +28,7 @@ export function LanguageProvider({ children }) {
   const pick = (field) => {
     if (field == null) return field;
     if (typeof field === "string") return field;
-    return field[language] ?? field.en ?? "";
+    return field[language] || field.en || "";
   };
 
   return (

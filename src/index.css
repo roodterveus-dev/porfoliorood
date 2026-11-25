@@ -1,30 +1,129 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+
+/* daisyUI supplies the component styles (btn, badge, input, …). Its two
+   themes are named "dark" and "light" so they follow the same data-theme
+   attribute the theme toggle already sets. daisyUI's own `glass` is excluded
+   because this site already uses that class name for its cards. */
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+  exclude: glass;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #0d1117;
+  --color-base-200: #151b23;
+  --color-base-300: #232b36;
+  --color-base-content: #e6edf3;
+  --color-primary: #34d399;
+  --color-primary-content: #04291b;
+  --color-secondary: #fbbf24;
+  --color-secondary-content: #2b1a00;
+  --color-accent: #34d399;
+  --color-accent-content: #04291b;
+  --color-neutral: #232b36;
+  --color-neutral-content: #e6edf3;
+  --color-info: #38bdf8;
+  --color-info-content: #04212f;
+  --color-success: #34d399;
+  --color-success-content: #04291b;
+  --color-warning: #fbbf24;
+  --color-warning-content: #2b1a00;
+  --color-error: #f87171;
+  --color-error-content: #2d0707;
+  --radius-selector: 2rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  color-scheme: light;
+  --color-base-100: #faf8f3;
+  --color-base-200: #ffffff;
+  --color-base-300: #e7e2d8;
+  --color-base-content: #1c1917;
+  --color-primary: #047857;
+  --color-primary-content: #ffffff;
+  --color-secondary: #b45309;
+  --color-secondary-content: #ffffff;
+  --color-accent: #047857;
+  --color-accent-content: #ffffff;
+  --color-neutral: #1c1917;
+  --color-neutral-content: #faf8f3;
+  --color-info: #0369a1;
+  --color-info-content: #ffffff;
+  --color-success: #047857;
+  --color-success-content: #ffffff;
+  --color-warning: #b45309;
+  --color-warning-content: #ffffff;
+  --color-error: #b91c1c;
+  --color-error-content: #ffffff;
+  --radius-selector: 2rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
 
 @theme {
-  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter Variable", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 
-  --color-bg: #0b0b0f;
-  --color-surface: #14141b;
-  --color-border: #24242e;
-  --color-text: #e5e5ec;
-  --color-muted: #8b8b9a;
-  --color-accent: #3b82f6;
-  --color-accent-2: #22d3ee;
+  --color-bg: #0d1117;
+  --color-surface: #151b23;
+  --color-border: #232b36;
+  --color-text: #e6edf3;
+  --color-muted: #8b96a5;
+  --color-accent: #34d399;
+  --color-on-accent: #04291b;
+  --color-accent-2: #fbbf24;
 }
 
 :root[data-theme="light"] {
-  --color-bg: #f7f7fb;
+  --color-bg: #faf8f3;
   --color-surface: #ffffff;
-  --color-border: #e2e2ea;
-  --color-text: #16161d;
-  --color-muted: #5b5b6b;
-  --color-accent: #2563eb;
-  --color-accent-2: #0891b2;
+  --color-border: #e7e2d8;
+  --color-text: #1c1917;
+  --color-muted: #6b645a;
+  --color-accent: #047857;
+  --color-on-accent: #ffffff;
+  --color-accent-2: #b45309;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 body {
@@ -37,69 +136,43 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
-/* Liquid glass: frosted, translucent panels with a soft specular highlight.
-   Lives in @layer base so a Tailwind position utility (fixed/absolute/etc.)
-   on the same element always wins over `.glass`'s own `position: relative` —
-   otherwise unlayered custom CSS beats layered utilities regardless of
-   source order, which silently breaks `fixed` elements (e.g. a sticky nav)
-   the moment they also get the `glass` class. */
+/* Cards. In @layer base so Tailwind position utilities (fixed/absolute)
+   on the same element still win over `position: relative`. */
 @layer base {
   .glass {
     position: relative;
-    background: color-mix(in oklab, var(--color-surface) 55%, transparent);
-    border: 1px solid color-mix(in oklab, white 14%, transparent);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    backdrop-filter: blur(20px) saturate(160%);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    background: color-mix(in oklab, var(--color-surface) 92%, transparent);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
   }
 
-  .glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.12),
-      transparent 45%
-    );
-    pointer-events: none;
+  header.glass {
+    background: color-mix(in oklab, var(--color-bg) 85%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-width: 0 0 1px;
+    box-shadow: none;
   }
 
   :root[data-theme="light"] .glass {
-    background: color-mix(in oklab, var(--color-surface) 65%, transparent);
-    border-color: color-mix(in oklab, black 10%, transparent);
-    box-shadow:
-      0 8px 32px rgba(20, 20, 30, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  }
-
-  :root[data-theme="light"] .glass::before {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.5),
-      transparent 45%
-    );
+    box-shadow: 0 1px 3px rgba(28, 25, 23, 0.06);
   }
 
   .glass-hover {
     transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
   }
 
-  .glass-hover:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in oklab, var(--color-accent) 45%, transparent);
-    box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.32),
-      0 0 28px color-mix(in oklab, var(--color-accent) 22%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  @media (hover: hover) {
+    .glass-hover:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in oklab, var(--color-accent) 55%, var(--color-border));
+      box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--color-accent) 35%, transparent);
+    }
   }
 }

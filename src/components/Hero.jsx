@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="min-h-screen flex items-center px-6 relative overflow-hidden"
+      className="min-h-screen flex items-center px-6 pt-24 pb-12 relative overflow-hidden"
     >
       <div
         aria-hidden
@@ -22,7 +22,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-6xl font-semibold tracking-tight text-text"
+            className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-text"
           >
             {profile.name}
           </motion.h1>
@@ -49,17 +49,17 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-8 flex items-center justify-center md:justify-start gap-4"
+            className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3"
           >
             <a
               href="#projects"
-              className="px-5 py-2.5 rounded-full bg-accent text-white text-sm font-medium hover:opacity-90 transition-opacity"
+              className="btn btn-primary rounded-full px-6"
             >
               {t.hero.viewProjects}
             </a>
             <a
               href="#contact"
-              className="glass glass-hover px-5 py-2.5 rounded-full text-sm font-medium text-text"
+              className="btn btn-outline rounded-full px-6 border-border text-text hover:border-accent hover:bg-transparent hover:text-accent"
             >
               {t.hero.getInTouch}
             </a>
@@ -76,8 +76,11 @@ export default function Hero() {
             <img
               src={profile.avatar}
               alt={profile.name}
+              width={384}
+              height={384}
+              fetchPriority="high"
               onError={(e) => (e.currentTarget.style.display = "none")}
-              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 rounded-full object-cover border border-border"
+              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 rounded-full object-cover ring-4 ring-accent/25 ring-offset-4 ring-offset-bg"
             />
           </motion.div>
         )}
