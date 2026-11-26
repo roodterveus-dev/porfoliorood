@@ -138,8 +138,8 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <div className="px-6 pb-4 flex items-center gap-3">
-              <LanguageSwitcher />
+            <div className="px-6 pb-4 flex flex-wrap items-center gap-3">
+              <LanguageSwitcher inline />
               <ThemeToggle />
             </div>
           </motion.div>

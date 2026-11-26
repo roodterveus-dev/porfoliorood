@@ -7,7 +7,37 @@ import FlagIcon from "./FlagIcon";
 
 const order = ["en", "fr", "ht"];
 
-export default function LanguageSwitcher() {
+// Mobile menu: plain buttons, no popover, so nothing can be clipped or
+// covered and every option is a single tap.
+function InlineLanguageSwitcher() {
+  const { language, setLanguage } = useLanguage();
+  return (
+    <div role="group" aria-label="Language" className="join">
+      {order.map((code) => (
+        <button
+          key={code}
+          type="button"
+          aria-pressed={language === code}
+          aria-label={languageLabels[code]}
+          onClick={() => setLanguage(code)}
+          className={`join-item btn btn-sm h-10 gap-1.5 px-3 ${
+            language === code ? "btn-primary" : "btn-ghost border-border"
+          }`}
+        >
+          <FlagIcon code={code} />
+          {code.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export default function LanguageSwitcher({ inline = false }) {
+  if (inline) return <InlineLanguageSwitcher />;
+  return <DropdownLanguageSwitcher />;
+}
+
+function DropdownLanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);

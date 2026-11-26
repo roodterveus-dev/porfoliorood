@@ -4,6 +4,10 @@ import {
   FaTwitter,
   FaEnvelope,
   FaWhatsapp,
+  FaInstagram,
+  FaFacebook,
+  FaTiktok,
+  FaYoutube,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { usePortfolioData } from "../context/PortfolioDataContext";
@@ -16,6 +20,10 @@ const icons = {
   x: FaXTwitter,
   email: FaEnvelope,
   whatsapp: FaWhatsapp,
+  instagram: FaInstagram,
+  facebook: FaFacebook,
+  tiktok: FaTiktok,
+  youtube: FaYoutube,
 };
 
 export default function Footer() {
